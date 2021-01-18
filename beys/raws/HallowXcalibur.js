@@ -47,6 +47,7 @@ function rsuse(acted, victim, logger){
     acted.bey.boostUsed = true;
     acted.hp = Math.round(acted.maxhp/100*50);
     acted.stamina = acted.stamina + 2;
+    logger.add(`[${acted.username}] Hallow Xcalibur refused to die and revived itself.`);
 }
 
 const Resurrection = new bcworkshop.Passive("Resurrection", rsreq, rsuse, 0);
@@ -57,10 +58,12 @@ function hmreq(acted, victim, logger){
 
 function hmuse(acted, victim, logger){
     acted.bey.hallowEnergy = -7;
+    logger.add(`[${acted.username}] Hallow Xcalibur activated **Hallow Mode**.`)
     setTimeout(() => {
         acted.bey.HallowMode.active = false;
         victim.hp = Math.round(victim.hp/100*90);
         victim.stamina = victim.stamina - 1;
+        logger.add(`[${acted.username}] Hallow Xcalibur's **Hallow Mode** ran out.`)
     }, 15000);
 }
 
