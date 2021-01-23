@@ -1,11 +1,10 @@
 const bcworkshop = require("bcworkshop");
-const { MessageEmbed } = require("discord.js");
 
-function SRHSRequirement(acted, victim, message, player){//Sword Rebellion Hell Slash Requirements
+function SRHSRequirement(acted, victim, message, player){
      return acted.sp >= 3 && acted.bey.type == Attack;
 }
 
-function SRHS(acted, victim, logger, player){//Sword Rebellion Hell Slash Effects
+function SRHS(acted, victim, logger, player){
      victim.hp -= (50 + .7 * player.lvl);
      acted.stm -= (1 + .008 * player.lvl);
      logger.add(`Hell Salamander used **Sword Rebellion Hell Slash**`)
@@ -14,11 +13,11 @@ function SRHS(acted, victim, logger, player){//Sword Rebellion Hell Slash Effect
 const SwordRebellionHellSlash = new bcworkshop.Special("Sword Rebellion Hell Slash", SRHSRequirement, SRHS);
 
 
-function RCHRequirement(acted, victim, message, player){//Raging Crimson Hellfire Requirements
+function RCHRequirement(acted, victim, message, player){
      return acted.sp >= 3 && acted.bey.type == Defense;
 }
 
-function RCH(acted, victim, logger, player){//Raging Crimson Hellfire Effects
+function RCH(acted, victim, logger, player){
       acted.stm = (1 + .018 * player.lvl);
       victim.atk = (victim.atk = (victim.atk/100 * (50 - .2 * player.lvl)));
       logger.add(`Hell Salamander used **Raging Crimson Hellfire**!`)
@@ -27,37 +26,38 @@ function RCH(acted, victim, logger, player){//Raging Crimson Hellfire Effects
 const RagingCrimsonHellfire = new bcworkshop.Special("Raging Crimson Hellfire", RCHRequirement, RCH);
 
 
-function BRRequirement(acted, victim, message, player){//Burning Resonance Requirements
+function BRRequirement(acted, victim, message, player){
      return acted.sp >= .5 && acted.move == fight;
 }
 
-function BR(acted, victim, message, player){//Burning Resonance Effects
+function BR(acted, victim, message, player)
      switch(acted.bey.SalamanderMode){
-  case 0:
-    victim.atk -= (Math.round(victim.atk/100 * 90));
-  break;
-  case 1:
-    acted.atk += (Math.round(victim.hp/100 * 5));
-  break;
+          case 0:
+               victim.atk -= (Math.round(victim.atk/100 * 90));
+          break;
+          case 1:
+               acted.atk += (Math.round(victim.hp/100 * 5));
+          break;
      }
      acted.sp -= .5;
 }
 
 const BurningResonance = new bcworkshop.Passive("Burning Resonance", BRRequirement, BR, 0);
 
-function FIFRequirements(acted, victim, message, player){//Forged In Fire Requirements
+function FIFRequirements(acted, victim, message, player){
       return acted.sp >= 3 && acted.bey.type == Defense && victim.move == fight;
 }
 
-function FIF(acted, victim, message, player){//Forged In Fire Effects
+function FIF(acted, victim, message, player){
     if((Math.floor(Math.random() * 99) <= 9)){
          acted.hp += (victim.atk/100 * (120 + .3 * player.lvl));
-     acted.sp = 0;
-}}
+         acted.sp = 0;
+    }
+}
 
 const ForgedInFire = new bcworkshop.Passive("Forged In Fire", FIFRequirements, FIF, 60);
 
-function UTRequirements(acted, victim, message, player){//Untouchable Flame Requirements
+function UTRequirements(acted, victim, message, player){
       return acted.sp >= 3 && acted.bey.type == Attack && victim.move == fight;
 }
 
@@ -65,11 +65,12 @@ function UT(acted, victim, message, player){//Untouchable Flame Effects
      if((Math.floor(Math.random() * 99) <= 29)){
           victim.atk -= (victim.atk = (victim.atk/100 * (30 - .3 * player.lvl)));
           acted.sp = 0;
-}}
+     }
+}
 
 const UntouchableFlame = new bcworkshop.Passive("Untouchable Flame", UTRequirements, UT, 60)
 
-function AttackRequirement(acted, victim, message, player){//Attack Mode Requirements
+function AttackRequirement(acted, victim, message, player){
      return acted.bey.SalamanderMode == 1;
 }
 
@@ -80,11 +81,11 @@ function AttackM(acted, victim, message, player){//Attack Mode Effects
 const AttackMode = new bcworkshop.Mode("Attack Mode", AttackRequirement, AttackM);
 
 
-function DefenseRequirement(acted, victim, message, player){//Defense Mode Requirements
+function DefenseRequirement(acted, victim, message, player){
      return acted.bey.SalamanderMode == 0;
 }
 
-function DefenseM(acted, victim, message, player){//Defense Mode Effects
+function DefenseM(acted, victim, message, player){
      acted.bey.type = Defense
 }
 
@@ -92,7 +93,6 @@ const DefenseMode = new bcworkshop.Mode("Defense Mode", DefenseRequirement, Defe
 
 
 const HellSalamander = new bcworkshop.Beyblade({name: "Hell Salamander", type: "Balance", imageLink: "https://i.imgur.com/5PgZtDe.png"})
-
 .attachSpecial(SwordRebellionHellSlash)
 .attachSpecial(RagingCrimsonHellfire)
 .attachPassive(BurningResonance)
@@ -102,4 +102,5 @@ const HellSalamander = new bcworkshop.Beyblade({name: "Hell Salamander", type: "
 .attachMode(DefenseMode)
 .addProperty("SalamanderMode", "Math.floor(Math.random() * 2)")
 .setDefaultSD("Left");
+
 module.exports = HellSalamander;
