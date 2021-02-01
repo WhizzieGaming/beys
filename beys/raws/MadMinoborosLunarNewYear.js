@@ -30,7 +30,7 @@ function GrazingCowRequirement(acted, victim, logger){
 
 function GrazingCowUse(acted, victim, logger){
     acted.stamina += 2;
-    acted.bey.firecharges +=1;
+    acted.bey.firecharges += 1;
 }
 
 const GrazingCow = new bcworkshop.Passive("Grazing Cow", GrazingCowRequirement, GrazingCowUse)
@@ -47,7 +47,7 @@ function RagingBullUse(acted, victim, logger){
     logger.add(`[${acted.username}] Mad Minoboros Lunar New Year Ver. got angry!`);
 }
 
-const AngryBull=new bcworkshop.Passive("Angry Bull",RagingBullRequirement,RagingBullUse,0);
+const AngryBull = new bcworkshop.Passive("Angry Bull", RagingBullRequirement, RagingBullUse, 0);
 
 function FireworksChargeRequirement(acted, victim, logger){
     acted.hp = 100;
@@ -59,13 +59,13 @@ function FireworksChargeUse(acted, victim, logger){
 
 const FireworksCharge = new bcworkshop.Mode("Fireworks Charge", FireworksChargeRequirement, FireworksChargeUse)
 
-const MadMinoborosLunarNewYearVer=new bcworkshop.Beyblade({name: "Mad Minoboros Lunar New Year Ver.",type: "Attack", imageLink: "https://i.imgur.com/SB7mdFU.png"})
-.addProperty("firecharges", 0)
-.addProperty("boostUsed", false)
+const MadMinoborosLunarNewYearVer = new bcworkshop.Beyblade({name: "Mad Minoboros Lunar New Year Ver.", type: "Attack", imageLink: "https://i.imgur.com/SB7mdFU.png"})
 .attachSpecial(FireworksQuake)
 .attachSpecial(MinoborosNewYear)
 .attachPassive(GrazingCow)
 .attachPassive(AngryBull)
-.attachMode(FireworksCharge);
+.attachMode(FireworksCharge)
+.addProperty("firecharges", 0)
+.addProperty("boostUsed", false);
 
-modules.export = MadMinoborosLNYVer;
+module.exports = MadMinoborosLunarNewYearVer;
